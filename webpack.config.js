@@ -11,23 +11,18 @@ function NothingPlugin() {
 }
 
 const config = env => ({
-	entry: env && env.NODE_ENV === 'production' ? './src/index.jsx' : './src/devIndex.jsx',
+	entry: './src/index.tsx',
 	output: {
 		path: path.resolve(__dirname, 'dist'),
 		filename: env && env.NODE_ENV === 'production' ? '[name].[contenthash].js' : '[name].js',
 	},
-	devtool: env && env.NODE_ENV === 'production' ? 'source-map' : 'cheap-module-eval-source-map',
+	devtool: 'inline-source-map',
+	// devtool: env && env.NODE_ENV === 'production' ? 'source-map' : 'cheap-module-eval-source-map',
 	module: {
 		rules: [
 			{
-				enforce: 'pre',
-				test: /\.(js|jsx)$/,
-				exclude: /node_modules/,
-				loader: 'eslint-loader',
-			},
-			{
-				test: /\.(js|jsx)$/,
-				use: 'babel-loader',
+				test: /\.tsx?$/,
+				use: 'ts-loader',
 				exclude: /node_modules/,
 			},
 			{
@@ -63,6 +58,8 @@ const config = env => ({
 	},
 	resolve: {
 		extensions: [
+			'.tsx',
+			'.ts',
 			'.js',
 			'.jsx',
 			'.mjs',
